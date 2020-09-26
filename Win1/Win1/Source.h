@@ -11,6 +11,8 @@
 #include "Polyline.h"
 #include "Text.h"
 #include "Polygone.h"
+#include "Figure.h"
+//#include "Creators.h"
 
 static TCHAR szWindowClass[] = _T("DesktopApp");
 static TCHAR szTitle[] = _T("myPaint");
@@ -21,8 +23,15 @@ HPEN Pen;
 
 typedef enum {CLINE,SLINE,FRECT,NRECT,TEXT,ELLIPS} TFigure ;
 BOOL isDown = FALSE;
-std::vector<Line*> myfigures;
+std::vector<Figure*> myfigures;
 
+void createEntity();
+void onBtnDwn(LPARAM lp, WPARAM wp);
+void onMouseMove(LPARAM lp, WPARAM wp);
+void onBtnUp(LPARAM lp, WPARAM wp);
+void onPt(int type, Figure* fg, HDC hdc);
+void onDCl(LPARAM lp, WPARAM wp);
+void onChr(LPARAM lp, WPARAM wp);
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 

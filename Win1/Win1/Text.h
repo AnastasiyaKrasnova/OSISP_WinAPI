@@ -2,11 +2,19 @@
 #include "Source.h"
 
 
-class Text
+class Text : public Figure
 {
 public:
 
-    int x0, y0, x1, y1;
+    RECT rectPlace;
+    HFONT hFont;
+    PTCHAR text;
+    int size = 0;
+
+    int getType()
+    {
+        return 7;
+    } 
 
     void OnPaint(HDC hdc) {
         if (this != NULL) {
@@ -16,8 +24,7 @@ public:
     }
 
     void OnMButtonDown(int x, int y, BOOL& isDown) {
-        x0 = x;
-        y0 = y;
+
         isDown = true;
         rectPlace.left = x;
         rectPlace.top = y;
@@ -31,11 +38,11 @@ public:
        
     }
 
-    void OnMButtonUp(int x, int y, BOOL& isDown, Text* fg, std::vector<Text*>& myfigures) {
+    void OnMButtonUp(int x, int y, BOOL& isDown, Text* fg, std::vector<Figure*>& myfigures) {
        
     }
 
-    void OnChar(WPARAM wParam, BOOL& isDown ,Text* fg, std::vector<Text*>& myfigures) {
+    void OnChar(WPARAM wParam, BOOL& isDown ,Text* fg, std::vector<Figure*>& myfigures) {
         switch (wParam)
         {
         case VK_ESCAPE:
@@ -43,19 +50,16 @@ public:
             isDown = false;
             break;
         default:
-            rectPlace.right+=7;
-            text[size] = (char)wParam;
-            size++;
+            if (this != NULL) {
+                rectPlace.right += 7;
+                text[size] = (char)wParam;
+                size++;
+            }
             break;
         }
     }
 
-    void OnDClick(int x, int y, BOOL& isDown, Text* fg, std::vector<Text*>& myfigures) {}
-
-private:
-    RECT rectPlace;
-    HFONT hFont;
-    PTCHAR text;
-    int size=0;
+    void OnDClick(int x, int y, BOOL& isDown, Text* fg, std::vector<Figure*>& myfigures) {}
+   
 };
 

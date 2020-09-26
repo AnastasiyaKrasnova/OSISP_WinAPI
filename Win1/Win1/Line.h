@@ -1,13 +1,18 @@
 #pragma once
 #include "Source.h"
+#include "Figure.h"
 
 
-class Line
+class Line: public Figure
 {
 public:
 
     int x0, y0, x1, y1;
-
+    
+    int getType()
+    {
+        return 1;
+    }
     void OnPaint(HDC hdc) {
         if (this !=NULL) {
             MoveToEx(hdc, x0, y0, NULL);
@@ -27,13 +32,13 @@ public:
         y1 = y;
     }
 
-    void OnMButtonUp(int x, int y, BOOL& isDown, Line* fg, std::vector<Line*> &myfigures) {
+    void OnMButtonUp(int x, int y, BOOL& isDown, Line* fg, std::vector<Figure*> &myfigures) {
         myfigures.push_back(fg);
         isDown = false;
     }
 
-    void OnDClick(int x, int y, BOOL& isDown, Line* fg, std::vector<Line*>& myfigures) {}
+    void OnDClick(int x, int y, BOOL& isDown, Line* fg, std::vector<Figure*>& myfigures) {}
 
-    void OnChar(WPARAM wParam, BOOL& isDown, Line* fg, std::vector<Line*>& myfigures) {}
+    void OnChar(WPARAM wParam, BOOL& isDown, Line* fg, std::vector<Figure*>& myfigures) {}
 };
 

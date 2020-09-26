@@ -1,11 +1,17 @@
 #pragma once
 #include "Source.h"
+#include "Figure.h"
 
 
-class Rect
+class Rectngl : public Figure
 {
 public:
     int x0, y0, x1, y1;
+
+    int getType()
+    {
+        return 4;
+    }
 
     void OnPaint(HDC hdc) {
         if (this != NULL ) {
@@ -25,9 +31,13 @@ public:
         y1 = y;
     }
 
-    void  OnMButtonUp(int x, int y, BOOL& isDown, Rect* fg, std::vector<Rect*>& myfigures) {
+    void  OnMButtonUp(int x, int y, BOOL& isDown, Rectngl* fg, std::vector<Figure*>& myfigures) {
         myfigures.push_back(fg);
         isDown = false;
     }
+
+    void OnDClick(int x, int y, BOOL& isDown, Rectngl* fg, std::vector<Figure*>& myfigures) {}
+
+    void OnChar(WPARAM wParam, BOOL& isDown, Rectngl* fg, std::vector<Figure*>& myfigures) {}
 };
 

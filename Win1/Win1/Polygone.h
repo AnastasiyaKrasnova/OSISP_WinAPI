@@ -2,11 +2,15 @@
 #include "Source.h"
 
 
-class Poligone
+class Poligone : public Figure
 {
 public:
-    int x0, y0, x1, y1;
     POINT pt[5];
+
+    int getType()
+    {
+        return 6;
+    } 
 
     void OnPaint(HDC hdc) {
         if (this != NULL) {
@@ -40,12 +44,12 @@ public:
         pt[4].y = pt[3].y;
     }
 
-    void  OnMButtonUp(int x, int y, BOOL& isDown, Poligone* fg, std::vector<Poligone*>& myfigures) {
+    void  OnMButtonUp(int x, int y, BOOL& isDown, Poligone* fg, std::vector<Figure*>& myfigures) {
         myfigures.push_back(fg);
         isDown = false;
     }
 
-    void OnDClick(int x, int y, BOOL& isDown, Poligone* fg, std::vector<Poligone*>& myfigures) {}
+    void OnDClick(int x, int y, BOOL& isDown, Poligone* fg, std::vector<Figure*>& myfigures) {}
 
-    void OnChar(WPARAM wParam, BOOL& isDown, Poligone* fg, std::vector<Poligone*>& myfigures) {}
+    void OnChar(WPARAM wParam, BOOL& isDown, Poligone* fg, std::vector<Figure*>& myfigures) {}
 };

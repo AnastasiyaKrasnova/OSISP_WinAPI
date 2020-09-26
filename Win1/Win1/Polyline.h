@@ -2,16 +2,20 @@
 #include "Source.h"
 
 
-class Poliline
+class Poliline: public Figure
 {
 public:
 
     typedef std::vector<POINT> TPoints;
     TPoints points;
     int currPos=-1;
-    int x0, y0, x1, y1;
 
-    void OnPaint(HDC hdc) {
+    int getType()
+    {
+        return 3;
+    }
+
+     void OnPaint(HDC hdc){
         if (this != NULL && points.size() > 0) {
             for (int i = 1; i < points.size(); i++) {
                 MoveToEx(hdc, points[i - 1].x, points[i - 1].y, NULL);
@@ -21,7 +25,7 @@ public:
 
     }
 
-    void OnMButtonDown(int x, int y, BOOL& isDown) {
+    void OnMButtonDown(int x, int y, BOOL& isDown){
         isDown = true;
         POINT pt;
         pt.x = x;
@@ -31,7 +35,7 @@ public:
         
     }
 
-    void OnMouseMove(int x, int y) {
+    void OnMouseMove(int x, int y){
         if (points.size()>1)
             points.pop_back();
         POINT pt;
@@ -40,7 +44,7 @@ public:
         points.push_back(pt);
     }
 
-    void OnMButtonUp(int x, int y, BOOL& isDown, Poliline* fg, std::vector<Poliline*>& myfigures) {
+    void OnMButtonUp(int x, int y, BOOL& isDown, Poliline* fg, std::vector<Figure*>& myfigures) {
         POINT pt;
         points.pop_back();
         pt.x = x;
@@ -48,7 +52,7 @@ public:
         points.push_back(pt);
     }
 
-    void OnDClick(int x, int y, BOOL& isDown, Poliline* fg, std::vector<Poliline*>& myfigures) {
+    void OnDClick(int x, int y, BOOL& isDown, Poliline* fg, std::vector<Figure*>& myfigures) {
         isDown = false;
         POINT pt;
         pt.x = x;
@@ -58,6 +62,8 @@ public:
         myfigures.push_back(fg);
 
     }
+
+    void OnChar(WPARAM wParam, BOOL& isDown, Poliline* fg, std::vector<Figure*>& myfigures){}
 
 };
 

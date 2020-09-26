@@ -2,13 +2,17 @@
 #include "Source.h"
 
 
-class Curvy
+class Curvy: public Figure
 {
 public:
 
     typedef std::vector<POINT> TPoints;
     TPoints points;
-    int x0, y0, x1, y1;
+
+    int getType()
+    {
+        return 2;
+    }
 
     void OnPaint(HDC hdc) {
         if (this != NULL && points.size() > 0) {
@@ -23,8 +27,6 @@ public:
     void OnMButtonDown(int x, int y, BOOL& isDown) {
         points.clear();
         POINT pt;
-        x0 = x;
-        y0 = y;
         pt.x = x;
         pt.y = y;
         points.push_back(pt);
@@ -33,15 +35,17 @@ public:
 
     void OnMouseMove(int x, int y) {
         POINT pt;
-        x1 = x;
-        y1 = y;
         pt.x = x;
         pt.y = y;
         points.push_back(pt);
     }
 
-    void OnMButtonUp(int x, int y, BOOL& isDown, Curvy* fg, std::vector<Curvy*>& myfigures) {
+    void OnMButtonUp(int x, int y, BOOL& isDown, Curvy* fg, std::vector<Figure*>& myfigures) {
         isDown = false;
         myfigures.push_back(fg);
     }
+
+    void OnDClick(int x, int y, BOOL& isDown, Curvy* fg, std::vector<Figure*>& myfigures) {}
+
+    void OnChar(WPARAM wParam, BOOL& isDown, Curvy* fg, std::vector<Figure*>& myfigures) {}
 };
