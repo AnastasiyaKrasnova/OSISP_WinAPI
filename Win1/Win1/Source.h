@@ -16,12 +16,13 @@
 
 static TCHAR szWindowClass[] = _T("DesktopApp");
 static TCHAR szTitle[] = _T("myPaint");
+static TCHAR szMenu[] = _T("ID_MENU");
+HMENU hMenu;
 HINSTANCE hInst;
 HDC hdc;
 PAINTSTRUCT ps;
 HPEN Pen;
 
-typedef enum {CLINE,SLINE,FRECT,NRECT,TEXT,ELLIPS} TFigure ;
 BOOL isDown = FALSE;
 std::vector<Figure*> myfigures;
 

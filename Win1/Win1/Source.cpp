@@ -1,4 +1,5 @@
 #include "Source.h"
+#include "resource.h"
 
 Figure* currFigure;
 
@@ -11,6 +12,7 @@ int CALLBACK WinMain(
 )
 
 {
+    //hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(ID_Menu));
     WNDCLASSEX wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -153,6 +155,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case 0x36:  FT = 6; break;
             case 0x37:  FT = 7; break;
         }
+    case WM_COMMAND:
+        switch (LOWORD(wParam))
+        {
+        case 1:
+           
+            break;
+        case 2:
+           
+            break;
+        }
+        break;
 
     default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
