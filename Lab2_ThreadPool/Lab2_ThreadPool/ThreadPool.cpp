@@ -1,7 +1,7 @@
 #include "ThreadPool.h"
 
 
-ThreadPool::ThreadPool(std::size_t numThreads) {
+ThreadPool::ThreadPool(std::size_t numThreads=2) {
 	start(numThreads);
 }
 
@@ -9,15 +9,6 @@ ThreadPool::~ThreadPool() {
 	stop();
 }
 
-//template<class T, class... Args>
-
-/*std::string ThreadPool::getCurrentTimeData_()
-{
-	time_t seconds = time(NULL);
-	tm* timeInfo = localtime_s(&seconds);
-	std::string result = asctime(timeInfo);
-	return result;
-}*/
 
 int ThreadPool::threadsCount()
 {
@@ -41,6 +32,7 @@ void ThreadPool::start(std::size_t numThreads) {
 
 			});
 	}
+	log.logThreadPoolInit(numThreads);
 }
 void ThreadPool::stop() {
 	{
@@ -51,5 +43,6 @@ void ThreadPool::stop() {
 	for (auto& thread : mThreads) {
 		thread.join();
 	}
+	log.logStop();
 }
 

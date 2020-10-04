@@ -1,0 +1,7 @@
+ThreadPool with 2 threads is created
+Task 1 successfully added to ThreadPool Task queue
+Task 2 successfully added to ThreadPool Task queue
+Error adding task
+Error adding task
+Exception on task3
+Exception on task4
