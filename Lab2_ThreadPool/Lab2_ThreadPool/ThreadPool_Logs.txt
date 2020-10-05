@@ -1,7 +1,8 @@
-ThreadPool with 2 threads is created
+ThreadPool with 5 threads is created
 Task 1 successfully added to ThreadPool Task queue
 Task 2 successfully added to ThreadPool Task queue
+Task 3 successfully added to ThreadPool Task queue
+Task 4 successfully added to ThreadPool Task queue
+Task 5 successfully added to ThreadPool Task queue
 Error adding task
-Error adding task
-Exception on task3
 Exception on task4

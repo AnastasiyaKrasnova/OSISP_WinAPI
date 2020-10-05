@@ -1,5 +1,6 @@
 #pragma once
 #include <thread>
+#include <iostream>
 #include <mutex>
 #include <condition_variable>
 #include <future>
@@ -25,17 +26,18 @@ public:
 	{
 		{
 			std::unique_lock<std::mutex> lock{ mEventMutex };
-			if (mTasks.size() + 1 <= mThreads.size()) {
 				using returnType = typename std::result_of<Func(Args...)>::type;
 				auto wrapper = std::make_shared< std::packaged_task<returnType()> >([func, args...]() { return func(args...); });
-				mTasks.emplace([=] {(*wrapper)(); });
-				mEventVar.notify_one();
-				log.logTaskAdding(mTasks.size());
-				return wrapper->get_future();
-			}
-			else {
-				log.logTaskAddingError();
-				printf("All threads are busy...\n");
+				if (mTasks.size() + 1 <= mThreads.size()) {
+					mTasks.emplace([=] {(*wrapper)(); });
+					mEventVar.notify_one();
+					log.logTaskAdding(mTasks.size());
+					return wrapper->get_future();
+				}
+				else {
+					log.logTaskAddingError();
+					printf("All threads are busy...\n");
+					return wrapper->get_future();
 			}	
 		}
 	}
