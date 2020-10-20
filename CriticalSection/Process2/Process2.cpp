@@ -31,12 +31,12 @@ int _tmain()
     }
 
     EnterMyCriticalSection(critical_section);
-    std::cout << 1 << std::endl;
-    std::cout << 2 << std::endl;
-    std::cout << 3 << std::endl;
-    std::cout << 4 << std::endl;
-    std::cout << 5 << std::endl;
-    std::cout << 6 << std::endl;
+    std::cout << 7 << std::endl;
+    std::cout << 8 << std::endl;
+    std::cout << 9 << std::endl;
+    std::cout << 10 << std::endl;
+    std::cout << 11 << std::endl;
+    std::cout << 12 << std::endl;
     LeaveMyCriticalSection(critical_section);
 
     UnmapViewOfFile(critical_section);

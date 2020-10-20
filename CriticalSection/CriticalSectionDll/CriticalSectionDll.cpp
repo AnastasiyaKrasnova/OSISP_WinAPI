@@ -8,6 +8,7 @@ BOOL lockSpinlock(MY_LPCRITICAL_SECTION lpCriticalSection) {
     DWORD spinCount = 0;
     SHORT sl = 1;
     while (spinCount < lpCriticalSection->SpinCount) {
+    //while (true) {
         if (lpCriticalSection->slock == 0) {
             sl = InterlockedExchange16(&lpCriticalSection->slock, sl);
             if (sl == 0) {
@@ -33,9 +34,9 @@ BOOL InitializeMyCriticalSectionAndSpinCount(
     DWORD              dwSpinCount
 ) {
     if (!lpCriticalSection->isInitialized) {
-        lpCriticalSection->isInitialized = false;
+        lpCriticalSection->isInitialized = true;
         lpCriticalSection->SpinCount = dwSpinCount;
-        lpCriticalSection->LockMutex = CreateMutex(NULL, FALSE, TEXT("MyMutex"));
+        lpCriticalSection->LockMutex = CreateMutex(NULL, FALSE, TEXT("MyCoolMutex"));
         return true;
     }
     return false;
@@ -44,18 +45,19 @@ BOOL InitializeMyCriticalSectionAndSpinCount(
 void EnterMyCriticalSection(
     MY_LPCRITICAL_SECTION lpCriticalSection
 ) {
-    if (GetCurrentThreadId() == lpCriticalSection->OwningThreadId && GetCurrentProcessId() == lpCriticalSection->OwningProcessId) {
-        return;
-    }
-    std::cout << "Nachinayu shturm\n";
+   // std::cout << "Nachinayu shturm\n";
     bool f = lockSpinlock(lpCriticalSection);
-    WaitForSingleObject(lpCriticalSection->LockMutex, INFINITE);
-    if (f) {
+    OpenMutex(
+        MUTEX_ALL_ACCESS,            // request full access
+        FALSE,                       // handle not inheritable
+        TEXT("MyCoolMutex"));  // object name
+    //WaitForSingleObject(lpCriticalSection->LockMutex, INFINITE);
+    /*if (f) {
         std::cout << "SpinLock Uhvachen\n";
     }
     else {
-        std::cout << "Mutex Uhvachen\n";
-    }
+        std::cout << "Hui Uhvachen\n";
+    }*/
     /*if (lpCriticalSection->OwningThreadId == GetCurrentThreadId())
     {
         InterlockedIncrement(&lpCriticalSection->RecursionCount);
@@ -73,8 +75,9 @@ void EnterMyCriticalSection(
 void LeaveMyCriticalSection(
     MY_LPCRITICAL_SECTION lpCriticalSection
 ) {
-    std::cout << "Section left\n";
+    //std::cout << "Section left\n";
     ReleaseMutex(lpCriticalSection->LockMutex);
+    //SetEvent(lpCriticalSection->LockMutex);
     unlockSpinlock(lpCriticalSection);
     lpCriticalSection->OwningThreadId = 0;
     lpCriticalSection->OwningProcessId = 0;
