@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7bf7367e-3ace-401a-aa79-458a1456acb8}</ProjectGuid>
-    <RootNamespace>CriticalSectionLab</RootNamespace>
+    <ProjectGuid>{b332d8fa-0ca3-47dc-b683-d1719db09abb}</ProjectGuid>
+    <RootNamespace>Process3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,11 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleTest.cpp" />
-    <ClCompile Include="CriticalSection.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CriticalSection.h" />
+    <ClCompile Include="Process3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
