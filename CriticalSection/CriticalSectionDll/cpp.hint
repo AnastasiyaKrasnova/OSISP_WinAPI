@@ -1,2 +1,0 @@
-﻿#define CRITICALSECTIONDLL_API __declspec(dllexport)
-#define CRITICALSECTIONDLL_API __declspec(dllimport)
