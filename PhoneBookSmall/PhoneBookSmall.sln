@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhoneBookSmall", "PhoneBook
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhoneBookSmallDLL", "PhoneBookSmallDLL\PhoneBookSmallDLL.vcxproj", "{EF7C1915-ACFC-42A3-958B-F92A381A2EC0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.vcxproj", "{BD975FEB-E46D-429C-9764-D043E9F22266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{EF7C1915-ACFC-42A3-958B-F92A381A2EC0}.Release|x64.Build.0 = Release|x64
 		{EF7C1915-ACFC-42A3-958B-F92A381A2EC0}.Release|x86.ActiveCfg = Release|Win32
 		{EF7C1915-ACFC-42A3-958B-F92A381A2EC0}.Release|x86.Build.0 = Release|Win32
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Debug|x64.ActiveCfg = Debug|x64
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Debug|x64.Build.0 = Debug|x64
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Debug|x86.ActiveCfg = Debug|Win32
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Debug|x86.Build.0 = Debug|Win32
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Release|x64.ActiveCfg = Release|x64
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Release|x64.Build.0 = Release|x64
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Release|x86.ActiveCfg = Release|Win32
+		{BD975FEB-E46D-429C-9764-D043E9F22266}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

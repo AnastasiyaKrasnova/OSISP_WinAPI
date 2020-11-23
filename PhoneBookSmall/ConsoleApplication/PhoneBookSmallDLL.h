@@ -20,7 +20,6 @@ struct PhonebookRecord
 	wchar_t flat[10];
 };
 
-
 struct TreeNode
 {
 	std::vector<PhonebookRecord*> data;
@@ -39,9 +38,9 @@ struct TreeNode
 class IPhoneBook {
 public:
 	virtual ~IPhoneBook() { ; }
-	virtual std::vector<PhonebookRecord*> Search(PhonebookRecord searchParam) = 0;;
-	virtual std::vector<PhonebookRecord*> GetPhonebook() = 0;;
-	virtual void InitPhoneBook() = 0;
+	virtual std::vector<PhonebookRecord*> Search(PhonebookRecord searchParam)=0;
+	virtual std::vector<PhonebookRecord*> GetPhonebook()=0;
+	virtual VOID InitPhoneBook()=0;
 };
 
 
@@ -49,13 +48,13 @@ class PhoneBook:public IPhoneBook {
 
 public:
 	std::vector<PhonebookRecord*> GetPhonebook();
-	void InitPhoneBook();
+	VOID InitPhoneBook();
 	std::vector<PhonebookRecord*> Search(PhonebookRecord searchParam);
 
 private:
 	std::vector<PhonebookRecord*> smallPhoneBook;
 	std::vector<PhonebookRecord*> ReadFromDBFile(std::wstring filePath);
-	void CreateIndex(std::vector<PhonebookRecord*> phoneBook);
+	VOID CreateIndex(std::vector<PhonebookRecord*> phoneBook);
 	std::vector<PhonebookRecord*> IntersectResult(std::vector<PhonebookRecord*> first, std::vector<PhonebookRecord*> second);
 	PhonebookRecord* ParseLine(std::wstring line);
 };
@@ -66,13 +65,13 @@ class Indexer {
 public:
 	
 	TreeNode* root = nullptr;
-    Indexer(std::vector<PhonebookRecord*> phoneBook, int offset);
+    Indexer(std::vector<PhonebookRecord*> phoneBook, ::size_t offset);
 	std::vector<PhonebookRecord*> Search(TreeNode* ptr, T value);
 	TreeNode* Insert(TreeNode* ptr, PhonebookRecord* value);
 
 private:
-	std::wstring ToString(T value);
-	int offset;	
+	std::wstring ConvertTowString(T value);
+	::size_t offset;	
 };
 
 extern "C"
