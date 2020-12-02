@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-//#include "PhoneBookSmallDll.h"
+#include "C:\Users\home\Desktop\Labs\Третий Сем\ОСиСП\PhoneBookLarge\PhoneBookLargeDll\PhoneBookLargeDll.h"
 #include "resource.h"
 #define WIN32_LEAN_AND_MEAN            
 #include <windows.h>

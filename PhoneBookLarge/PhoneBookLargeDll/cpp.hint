@@ -1,0 +1,2 @@
+﻿#define PHONEBOOKLARGEDLL_API __declspec(dllexport)
+#define PHONEBOOKLARGEDLL_API __declspec(dllimport)

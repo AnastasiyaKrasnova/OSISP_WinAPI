@@ -29,7 +29,6 @@ typedef struct TMainWindow {
 
 }TMainWindow, * PMainWindow;
 
-
 HINSTANCE hInst;
 HINSTANCE hDLL;
 PMainWindow pSelf;
@@ -39,10 +38,11 @@ WCHAR szWindowClass[MAX_LOADSTRING];
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 HWND CreateListView(HWND, int);
-//void UpdateListView(HWND, std::vector<PhonebookRecord*>);
+void UpdateListView(HWND, std::vector<PhonebookRecord*>);
 std::wstring GetText(HWND);
+PhonebookRecord MakeSearchParam();
 void InitDll(HWND);
 
 
-//IPhoneBook* phoneBookLoader;
-//std::vector<PhonebookRecord*> phoneBook;
+IPhoneBook* phoneBookLoader;
+std::vector<PhonebookRecord*> phoneBook;

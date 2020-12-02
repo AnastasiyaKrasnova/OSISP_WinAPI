@@ -69,6 +69,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
     case WM_CREATE: {
+
         InitDll(hWnd);
         pSelf = (PMainWindow)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(TMainWindow));
         if (pSelf != NULL) {
@@ -91,9 +92,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             pSelf->hSearch = CreateWindow(WC_BUTTON, TEXT("Search"), WS_CHILD | WS_OVERLAPPED | WS_EX_CLIENTEDGE | WS_VISIBLE | WS_BORDER | BS_CENTER,
                 3, 25, 774, 23, hWnd, IDC_SEARCHBTN, hInst, NULL);
             pSelf->hPrev = CreateWindow(WC_BUTTON, TEXT("Previous"), WS_CHILD | WS_OVERLAPPED | WS_EX_CLIENTEDGE | WS_VISIBLE | WS_BORDER | BS_CENTER,
-                25, 470, 200, 23, hWnd, IDC_PREVBTN, hInst, NULL);
+                25, 50, 200, 23, hWnd, IDC_PREVBTN, hInst, NULL);
             pSelf->hNext = CreateWindow(WC_BUTTON, TEXT("Next"), WS_CHILD | WS_OVERLAPPED | WS_EX_CLIENTEDGE | WS_VISIBLE | WS_BORDER | BS_CENTER,
-                825, 470, 200, 23, hWnd, IDC_NEXTBTN, hInst, NULL);
+                825, 50, 200, 23, hWnd, IDC_NEXTBTN, hInst, NULL);
         }
         break;
     }
@@ -102,82 +103,41 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (HIWORD(wParam)) {
         case BN_CLICKED:
             switch (LOWORD(wParam)) {
-            case (int)IDC_SEARCHBTN:
-                /*PhonebookRecord searchParam;
-                ZeroMemory(&searchParam, sizeof(searchParam));
-
-                if (pSelf != NULL) {
-                    std::wstring text = GetText(pSelf->hFn);
-                    text = GetText(pSelf->hTel);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.telephone));
-
-                    text = GetText(pSelf->hFn);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.firstName));
-
-                    text = GetText(pSelf->hLn);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.lastName));
-
-                    text = GetText(pSelf->hMn);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.fatherName));
-
-                    text = GetText(pSelf->hStr);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.street));
-
-                    text = GetText(pSelf->hHs);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.house));
-
-                    text = GetText(pSelf->hFlt);
-                    std::copy(std::begin(text), std::end(text), std::begin(searchParam.flat));
-
-                    UpdateListView(pSelf->hListView, phoneBookLoader->Search(searchParam));
-                }*/
+            case (int)IDC_SEARCHBTN: {
+                PhonebookRecord searchParam = MakeSearchParam();
+                UpdateListView(pSelf->hListView, phoneBookLoader->Search(searchParam));
                 break;
             }
-            /*case (int)IDC_NEXTBTN:
+            case (int)IDC_NEXTBTN:
             {
-                if (state == search) {
                     PhonebookRecord searchParam = MakeSearchParam();
-                    auto result = SearchNext(searchParam);
+                    auto result = phoneBookLoader->SearchFrom(searchParam);
                     if (result.size() != 0)
-                        UpdateListView(hListView, result);
-                }
-                else if (state == view) {
-                    auto result = GetNext();
-                    if (result.size() != 0)
-                        UpdateListView(hListView, result);
-                }
-                break;
+                        UpdateListView(pSelf->hListView, result);
+                    break;
             }
             case (int)IDC_PREVBTN:
             {
-                if (state == search) {
                     PhonebookRecord searchParam = MakeSearchParam();
-                    ReturnToPrevious();
-                    auto result = SearchNext(searchParam);
+                    phoneBookLoader->PrevPage();
+                    auto result = phoneBookLoader->SearchFrom(searchParam);
                     if (result.size() != 0)
-                        UpdateListView(hListView, result);
-                }
-                else if (state == view) {
-                    ReturnToPrevious();
-                    auto result = GetNext();
-                    if (result.size() != 0)
-                        UpdateListView(hListView, result);
-                }
-                break;
-            }*/
+                        UpdateListView(pSelf->hListView, result);
+                    break;
+            }
             break;
-        }
+            }
 
-        switch (LOWORD(wParam))
-        {
-        case IDM_EXIT:
-            DestroyWindow(hWnd);
-            break;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
+            switch (LOWORD(wParam))
+            {
+            case IDM_EXIT:
+                DestroyWindow(hWnd);
+                break;
+            default:
+                return DefWindowProc(hWnd, message, wParam, lParam);
+            }
         }
-    }
-    break;
+        break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
@@ -186,6 +146,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     break;
     case WM_DESTROY:
+        phoneBookLoader->DestroyPhoneBook();
         FreeLibrary(hDLL);
         PostQuitMessage(0);
         break;
@@ -202,7 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             switch (plvdi->item.iSubItem)
             {
-            case 0:/*
+            case 0:
                 plvdi->item.pszText = phoneBook[plvdi->item.iItem]->telephone;
                 break;
             case 1:
@@ -221,7 +182,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 plvdi->item.pszText = phoneBook[plvdi->item.iItem]->house;
                 break;
             case 6:
-                plvdi->item.pszText = phoneBook[plvdi->item.iItem]->flat;*/
+                plvdi->item.pszText = phoneBook[plvdi->item.iItem]->flat;
                 break;
 
             default:
@@ -231,11 +192,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
     }
-
+    }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
+
 }
 
 HWND CreateListView(HWND parent, int columns) {
@@ -243,8 +205,8 @@ HWND CreateListView(HWND parent, int columns) {
     RECT rcClient;
     GetClientRect(parent, &rcClient);
 
-    HWND hWndListView = CreateWindow(WC_LISTVIEW, L"", WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | WS_EX_CLIENTEDGE, 0, rcClient.top + 50,
-        rcClient.right - rcClient.left, rcClient.bottom - rcClient.top - 50, parent, IDC_LISTVIEW, hInst, NULL);
+    HWND hWndListView = CreateWindow(WC_LISTVIEW, L"", WS_VISIBLE | WS_CHILD | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | WS_EX_CLIENTEDGE, 0, rcClient.top + 100,
+        rcClient.right - rcClient.left, rcClient.bottom - rcClient.top - 100, parent, IDC_LISTVIEW, hInst, NULL);
 
     LVCOLUMN c = { 0 };
     c.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
@@ -259,7 +221,7 @@ HWND CreateListView(HWND parent, int columns) {
     return hWndListView;
 }
 
-/*void UpdateListView(HWND hListView, std::vector<PhonebookRecord*> book) {
+void UpdateListView(HWND hListView, std::vector<PhonebookRecord*> book) {
     ListView_DeleteAllItems(hListView);
 
     LVITEM lvI;
@@ -274,7 +236,7 @@ HWND CreateListView(HWND parent, int columns) {
         lvI.iItem = i;
         ListView_InsertItem(hListView, &lvI);
     }
-}*/
+}
 
 std::wstring GetText(HWND hEdit)
 {
@@ -283,8 +245,8 @@ std::wstring GetText(HWND hEdit)
     return buffer;
 }
 
-void InitDll(HWND hWnd) {/*
-    hDLL = LoadLibrary(L"C:\\Users\\home\\Desktop\\Labs\\Третий Сем\\ОСиСП\\PhoneBookSmall\\Debug\\PhoneBookSmallDLL.dll");
+void InitDll(HWND hWnd) {
+    hDLL = LoadLibrary(L"C:\\Users\\home\\Desktop\\Labs\\Третий Сем\\ОСиСП\\PhoneBookLarge\\Debug\\PhoneBookLargeDLL.dll");
 
     if (hDLL == NULL) {
         MessageBox(hWnd, TEXT("Error loading dll"), NULL, NULL);
@@ -296,5 +258,35 @@ void InitDll(HWND hWnd) {/*
         if (phoneBookLoader) {
             phoneBookLoader->InitPhoneBook();
         }
-    }*/
+    }
+}
+
+PhonebookRecord MakeSearchParam() {
+    PhonebookRecord searchParam;
+    ZeroMemory(&searchParam, sizeof(searchParam));
+
+    if (pSelf != NULL) {
+        std::wstring text = GetText(pSelf->hFn);
+        text = GetText(pSelf->hTel);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.telephone));
+
+        text = GetText(pSelf->hFn);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.firstName));
+
+        text = GetText(pSelf->hLn);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.lastName));
+
+        text = GetText(pSelf->hMn);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.fatherName));
+
+        text = GetText(pSelf->hStr);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.street));
+
+        text = GetText(pSelf->hHs);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.house));
+
+        text = GetText(pSelf->hFlt);
+        std::copy(std::begin(text), std::end(text), std::begin(searchParam.flat));
+    }
+    return searchParam;
 }
