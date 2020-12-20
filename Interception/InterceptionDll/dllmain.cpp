@@ -3,15 +3,6 @@
 #include <sstream>
 #include <detours.h>
 
-typedef LONG NTSTATUS;
-
-#ifndef STATUS_SUCCESS
-#define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
-#endif
-
-#ifndef STATUS_BUFFER_TOO_SMALL
-#define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
-#endif
 
 HANDLE hConsole;
 
@@ -233,14 +224,14 @@ std::wstring GetKeyPath(HKEY key)
                 DWORD size = 0;
                 DWORD result = 0;
                 result = ntQueryKeyAddress(key, 3, 0, 0, &size);
-                if (result == STATUS_BUFFER_TOO_SMALL)
+                if (result == (LONG)0xC0000023L)
                 {
                     size = size + 2;
-                    wchar_t* buffer = new (std::nothrow) wchar_t[size / sizeof(wchar_t)]; // size is in bytes
+                    wchar_t* buffer = new (std::nothrow) wchar_t[size / sizeof(wchar_t)];
                     if (buffer != NULL)
                     {
                         result = ntQueryKeyAddress(key, 3, buffer, size, &size);
-                        if (result == STATUS_SUCCESS)
+                        if (result == (LONG)0x00000000L)
                         {
                             buffer[size / sizeof(wchar_t)] = L'\0';
                             keyPath = std::wstring(buffer + 2);
